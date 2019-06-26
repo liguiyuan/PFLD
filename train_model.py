@@ -46,8 +46,9 @@ def main(args):
         if 'test' in model_dir and debug and os.path.exists(model_dir):
             import shutil
             shutil.rmtree(model_dir)
-        assert not os.path.exists(model_dir)
-        os.mkdir(model_dir)
+        #assert not os.path.exists(model_dir)
+        if not os.path.exists(model_dir):
+            os.mkdir(model_dir)
 
         print('Total number of examples: {}'.format(num_train_file))
         print('Test number of examples: {}'.format(num_test_file))
@@ -131,7 +132,12 @@ def main(args):
                 train(sess, epoch_size, epoch, list_ops)
                 checkpoint_path = os.path.join(model_dir,'model.ckpt')
                 metagraph_path = os.path.join(model_dir,'model.meta')
+                print('Saving variables')
+                start_time = time.time()
                 saver.save(sess, checkpoint_path, global_step=epoch,write_meta_graph=False)
+                save_time_variables = time.time() - start_time
+                print('Variables saved in %.2f seconds' % save_time_variables)
+
                 if not os.path.exists(metagraph_path):
                     saver.export_meta_graph(metagraph_path)
 
@@ -171,7 +177,8 @@ def train(sess, epoch_size, epoch, list_ops):
         mat_ratio = tf.reduce_mean(attributes_w_n,axis=0)
         #TODO when use function tf.map_fn get error results [inf,nan]
         # mat_ratio = tf.map_fn(lambda x:1.0/x if not x==0.0 else 0.0,mat_ratio)
-        mat_ratio = map(lambda x: 1.0 / x if not x == 0.0 else float(images.shape[0]), sess.run(mat_ratio))
+        #mat_ratio = map(lambda x: 1.0 / x if not x == 0.0 else float(images.shape[0]), sess.run(mat_ratio))
+        mat_ratio = list(map(lambda x: 1.0 / x if not x == 0.0 else float(images.shape[0]), sess.run(mat_ratio)))
         attributes_w_n = attributes_w_n*mat_ratio
         attributes_w_n = tf.reduce_sum(attributes_w_n,axis=1)
         # attributes_w_n = tf.expand_dims(attributes_w_n,1)
