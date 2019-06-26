@@ -3,8 +3,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-print('pid: {}     GPU: {}'.format(os.getpid(), os.environ['CUDA_VISIBLE_DEVICES']))
+#os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+#print('pid: {}     GPU: {}'.format(os.getpid(), os.environ['CUDA_VISIBLE_DEVICES']))
 
 import tensorflow as tf
 import numpy as np
@@ -313,8 +313,8 @@ def parse_arguments(argv):
     parser.add_argument('--image_channels', type=int, default=3)
     parser.add_argument('--batch_size', type=int, default=64)
     parser.add_argument('--pretrained_model', type=str, default='')
-    parser.add_argument('--model_dir', type=str, default='models/model_train')
-    parser.add_argument('--learning_rate', type=float, default=0.01)
+    parser.add_argument('--model_dir', type=str, default='models/')
+    parser.add_argument('--learning_rate', type=float, default=1e-4)
     parser.add_argument('--lr_epoch', type=str, default='10,20,50,100,200,500')
     parser.add_argument('--weight_decay', type=float, default=5e-5)
     parser.add_argument('--level', type=str, default='L5')

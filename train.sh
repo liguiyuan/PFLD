@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-save_model=./models/model_train
-pre_model=./models/model_train/
+save_model=./models/
+pre_model=./models/
 logs=./models/log_training.txt
 lr=1e-4
 
