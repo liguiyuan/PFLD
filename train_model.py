@@ -3,8 +3,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import os
-# os.environ['CUDA_VISIBLE_DEVICES'] = '2'
-# print('pid: {}     GPU: {}'.format(os.getpid(), os.environ['CUDA_VISIBLE_DEVICES']))
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+print('pid: {}     GPU: {}'.format(os.getpid(), os.environ['CUDA_VISIBLE_DEVICES']))
 
 import tensorflow as tf
 import numpy as np
@@ -15,6 +15,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import math
+import time
 
 from generate_data import DateSet
 from model2 import create_model
@@ -104,7 +105,7 @@ def main(args):
 
         save_params = tf.trainable_variables()
         saver = tf.train.Saver(save_params, max_to_keep=None)
-        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=1.0)
+        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.9)
         sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options,allow_soft_placement=False,log_device_placement=False))
         sess.run(tf.global_variables_initializer())
         sess.run(tf.local_variables_initializer())
@@ -189,7 +190,7 @@ def train(sess, epoch_size, epoch, list_ops):
         loss, _, lr, L2_loss = sess.run([list_ops['loss'], list_ops['train_op'], list_ops['lr_op'],\
                         list_ops['L2_loss']], feed_dict=feed_dict)
 
-        if ((i + 1) % 100) == 0 or (i+1) == epoch_size:
+        if ((i + 1) % 10) == 0 or (i+1) == epoch_size:
             Epoch = 'Epoch:[{:<4}][{:<4}/{:<4}]'.format(epoch, i+1, epoch_size)
             Loss = 'Loss {:2.3f}\tL2_loss {:2.3f}'.format(loss, L2_loss)
             print('{}\t{}\t lr {:2.3}'.format(Epoch, Loss, lr))
@@ -305,7 +306,7 @@ def parse_arguments(argv):
     parser.add_argument('--image_channels', type=int, default=3)
     parser.add_argument('--batch_size', type=int, default=64)
     parser.add_argument('--pretrained_model', type=str, default='')
-    parser.add_argument('--model_dir', type=str, default='models2/model_test')
+    parser.add_argument('--model_dir', type=str, default='models/model_train')
     parser.add_argument('--learning_rate', type=float, default=0.01)
     parser.add_argument('--lr_epoch', type=str, default='10,20,50,100,200,500')
     parser.add_argument('--weight_decay', type=float, default=5e-5)

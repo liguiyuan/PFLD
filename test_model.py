@@ -3,7 +3,7 @@ from __future__ import division
 from __future__ import print_function
 
 import os
-# os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 print('pid: {}     GPU: {}'.format(os.getpid(), os.environ['CUDA_VISIBLE_DEVICES']))
 import tensorflow as tf
 import numpy as np
@@ -12,8 +12,8 @@ import cv2
 from generate_data import gen_data
 
 def main():
-    meta_file = './models2/model0/model.meta'
-    ckpt_file = './models2/model0/model.ckpt-0'
+    meta_file = './models2/model_test/model.meta'
+    ckpt_file = './models2/model_test/model.ckpt-0'
     # test_list = './data/300w_image_list.txt'
 
     image_size = 112
