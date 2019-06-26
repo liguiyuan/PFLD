@@ -3,8 +3,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import os
-#os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-#print('pid: {}     GPU: {}'.format(os.getpid(), os.environ['CUDA_VISIBLE_DEVICES']))
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+print('pid: {}     GPU: {}'.format(os.getpid(), os.environ['CUDA_VISIBLE_DEVICES']))
 
 import tensorflow as tf
 import numpy as np
