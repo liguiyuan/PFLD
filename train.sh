@@ -11,6 +11,6 @@ nohup python -u train_model.py --model_dir=${save_model} \
                                --level=L1 \
                                --debug=False \
                                --image_size=112 \
-                               --batch_size=64 \
+                               --batch_size=128 \
                                > ${logs} 2>&1 &
 tail -f ${logs}
